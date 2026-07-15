@@ -51,7 +51,6 @@ class StateManager:
             return
 
         print(f"Unknown status: {status}")
-
     async def process_callback(
         self,
         session,
@@ -69,6 +68,11 @@ class StateManager:
             receiver_user_id
         )
 
+        self.sheets.update_session_question_order(
+            session["SessionID"],
+            1
+        )
+
         self.sheets.update_session_status(
             session["SessionID"],
             "WAITING_RECEIVER_ANSWER"
@@ -79,7 +83,6 @@ class StateManager:
         )
 
         if receiver is None:
-            print("Receiver not found")
             return
 
         template = self.sheets.get_template(
@@ -91,8 +94,14 @@ class StateManager:
             text=template
         )
 
-        print(
-            f"Receiver selected: {receiver['FullName']}"
+        questions = self.sheets.get_receiver_questions()
+
+        if len(questions) == 0:
+            return
+
+        await self.bot.send_message(
+            chat_id=int(receiver["TelegramID"]),
+            text=questions[0]["Question"]
         )
 
     async def process_sender_answer(
