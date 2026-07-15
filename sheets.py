@@ -111,6 +111,23 @@ class GoogleSheets:
         )
 
         return questions
+    def get_receiver_questions(self):
+
+        questions = []
+
+        for question in self.questions.get_all_records():
+
+            if (
+                question["Role"] == "Receiver"
+                and question["Active"] == "TRUE"
+            ):
+                questions.append(question)
+
+        questions.sort(
+            key=lambda q: int(q["QuestionOrder"])
+        )
+
+        return questions
 
     # ==========================================================
     # SCHEDULE
