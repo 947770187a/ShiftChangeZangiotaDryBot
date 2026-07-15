@@ -51,14 +51,7 @@ class Scheduler:
             if start_time > datetime.now():
                 continue
 
-            print()
-            print("======================================")
-            print("READY TO START SESSION")
-            print(f"ScheduleID : {schedule['ScheduleID']}")
-            print(f"Sender     : {schedule['SenderUserID']}")
-            print(f"StartTime  : {schedule['StartDateTime']}")
-            print("======================================")
-            print()
+            session = self.session_manager.create_session(schedule)
 
             self.sheets.update_schedule_executed(
                 schedule["ScheduleID"]
