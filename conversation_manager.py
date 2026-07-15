@@ -39,6 +39,36 @@ class ConversationManager:
             message=text
         )
 
+    async def process_callback(
+        self,
+        telegram_id,
+        data
+    ):
+
+        user = self.find_user_by_telegram(telegram_id)
+
+        if user is None:
+            return
+
+        session = self.sheets.get_active_session_by_sender(
+            user["UserID"]
+        )
+
+        if session is None:
+
+            session = self.sheets.get_session_by_receiver(
+                user["UserID"]
+            )
+
+        if session is None:
+            return
+
+        await self.state_manager.process_callback(
+            session=session,
+            user=user,
+            data=data
+        )
+
     def find_user_by_telegram(self, telegram_id):
 
         users = self.sheets.get_users()
