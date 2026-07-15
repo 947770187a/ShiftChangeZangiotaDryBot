@@ -23,6 +23,7 @@ class Scheduler:
                 print(f"[Scheduler] ERROR: {e}")
 
             await asyncio.sleep(60)
+            
     async def check_schedule(self):
 
         from datetime import datetime
