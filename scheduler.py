@@ -26,7 +26,13 @@ class Scheduler:
 
     async def check_schedule(self):
 
-        print(f"[Scheduler] {datetime.now():%Y-%m-%d %H:%M:%S}")
+        schedules = self.sheets.get_schedule()
+
+        print(f"Найдено записей Schedule: {len(schedules)}")
+
+        for schedule in schedules:
+
+            print(schedule)
 
         # Пока только проверяем, что Scheduler живой.
         # Логику запуска Session добавим следующим шагом.
