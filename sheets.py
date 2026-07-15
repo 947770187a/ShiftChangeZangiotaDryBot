@@ -266,6 +266,17 @@ class GoogleSheets:
             "Status",
             status
         )
+    def update_session_receiver(
+        self,
+        session_id,
+        receiver_user_id
+    ):
+
+        self.update_session(
+            session_id,
+            "ReceiverUserID",
+            receiver_user_id
+        )
     def get_available_receivers(self, sender_user_id):
 
         users = []
