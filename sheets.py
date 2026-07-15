@@ -55,6 +55,10 @@ class GoogleSheets:
         self.templates = self.book.worksheet(SHEET_TEMPLATES)
         self.log = self.book.worksheet(SHEET_LOG)
 
+    # ==========================================================
+    # SERVICE
+    # ==========================================================
+
     def test_connection(self):
 
         print("=" * 50)
@@ -67,34 +71,50 @@ class GoogleSheets:
 
         print("=" * 50)
 
-    # -----------------------------
+    # ==========================================================
     # USERS
-    # -----------------------------
+    # ==========================================================
 
     def get_users(self):
         return self.users.get_all_records()
 
     def get_user_by_id(self, user_id):
 
-        users = self.users.get_all_records()
-
-        for user in users:
+        for user in self.users.get_all_records():
 
             if user["UserID"] == user_id:
                 return user
 
         return None
 
-    # -----------------------------
+    # ==========================================================
     # QUESTIONS
-    # -----------------------------
+    # ==========================================================
 
     def get_questions(self):
         return self.questions.get_all_records()
 
-    # -----------------------------
+    def get_sender_questions(self):
+
+        questions = []
+
+        for question in self.questions.get_all_records():
+
+            if (
+                question["Role"] == "Sender"
+                and question["Active"] == "TRUE"
+            ):
+                questions.append(question)
+
+        questions.sort(
+            key=lambda q: int(q["QuestionOrder"])
+        )
+
+        return questions
+
+    # ==========================================================
     # SCHEDULE
-    # -----------------------------
+    # ==========================================================
 
     def get_schedule(self):
         return self.schedule.get_all_records()
@@ -110,9 +130,9 @@ class GoogleSheets:
                 self.schedule.update_cell(i, 5, "TRUE")
                 return
 
-    # -----------------------------
+    # ==========================================================
     # SESSIONS
-    # -----------------------------
+    # ==========================================================
 
     def save_session(self, session):
 
@@ -126,3 +146,32 @@ class GoogleSheets:
             session["AcceptDateTime"],
             session["FinishDateTime"]
         ])
+
+    # ==========================================================
+    # ANSWERS
+    # ==========================================================
+
+    def save_answer(self, answer):
+
+        self.answers.append_row([
+            answer["AnswerID"],
+            answer["SessionID"],
+            answer["UserID"],
+            answer["Role"],
+            answer["QuestionID"],
+            answer["Answer"],
+            answer["AnswerDateTime"]
+        ])
+
+    # ==========================================================
+    # MESSAGE TEMPLATES
+    # ==========================================================
+
+    def get_template(self, template_name):
+
+        rows = self.templates.get_all_records()
+
+        if not rows:
+            return ""
+
+        return rows[0].get(template_name, "")
