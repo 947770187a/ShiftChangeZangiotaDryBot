@@ -21,6 +21,7 @@ class SessionManager:
             "Status": "CREATED",
             "AcceptDateTime": "",
             "FinishDateTime": ""
+            "CurrentQuestionOrder": 1
         }
 
         # Сохраняем Session
