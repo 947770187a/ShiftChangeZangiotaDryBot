@@ -1,6 +1,5 @@
 import os
 import json
-import tempfile
 
 import gspread
 from google.oauth2.service_account import Credentials
@@ -31,9 +30,10 @@ class GoogleSheets:
         if os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON"):
 
             data = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"])
+
             creds = Credentials.from_service_account_info(
-             data,
-             scopes=SCOPES
+                data,
+                scopes=SCOPES
             )
 
         else:
@@ -75,6 +75,7 @@ class GoogleSheets:
 
     def get_schedule(self):
         return self.schedule.get_all_records()
+
     def update_schedule_executed(self, schedule_id):
 
         records = self.schedule.get_all_records()
@@ -84,5 +85,17 @@ class GoogleSheets:
             if row["ScheduleID"] == schedule_id:
 
                 self.schedule.update_cell(i, 5, "TRUE")
+                return
 
-                return    
+    def save_session(self, session):
+
+        self.sessions.append_row([
+            session["SessionID"],
+            session["ScheduleID"],
+            session["StartDateTime"],
+            session["SenderUserID"],
+            session["ReceiverUserID"],
+            session["Status"],
+            session["AcceptDateTime"],
+            session["FinishDateTime"]
+        ])
