@@ -1,4 +1,6 @@
 import asyncio
+
+from session_manager import SessionManager
 from datetime import datetime
 
 
@@ -7,6 +9,7 @@ class Scheduler:
     def __init__(self, sheets):
 
         self.sheets = sheets
+        self.session_manager = SessionManager(sheets)
 
     async def start(self):
 
