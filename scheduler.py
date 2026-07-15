@@ -43,7 +43,7 @@ class Scheduler:
             )
 
             if start_time > datetime.now():
-            continue
+                continue
 
             print()
             print("======================================")
