@@ -1,6 +1,7 @@
 import os
 import json
 import tempfile
+
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -26,19 +27,22 @@ SCOPES = [
 class GoogleSheets:
 
     def __init__(self):
-json_env = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
 
-if json_env:
-    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
-        f.write(json_env)
-        creds_file = f.name
-else:
-    creds_file = GOOGLE_CREDENTIALS_FILE
+        if os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON"):
 
-creds = Credentials.from_service_account_file(
-    creds_file,
-    scopes=SCOPES
-)
+            data = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"])
+
+            creds = Credentials.from_service_account_info(
+                data,
+                scopes=SCOPES
+            )
+
+        else:
+
+            creds = Credentials.from_service_account_file(
+                GOOGLE_CREDENTIALS_FILE,
+                scopes=SCOPES
+            )
 
         self.client = gspread.authorize(creds)
         self.book = self.client.open(GOOGLE_SHEET_NAME)
@@ -65,13 +69,10 @@ creds = Credentials.from_service_account_file(
         print("=" * 50)
 
     def get_users(self):
-
         return self.users.get_all_records()
 
     def get_questions(self):
-
         return self.questions.get_all_records()
 
     def get_schedule(self):
-
         return self.schedule.get_all_records()
