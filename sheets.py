@@ -230,3 +230,15 @@ class GoogleSheets:
                 )
 
                 return
+
+    def get_active_session_by_sender(self, user_id):
+
+        for session in self.sessions.get_all_records():
+
+            if (
+                session["SenderUserID"] == user_id
+                and session["FinishDateTime"] == ""
+            ):
+                return session
+
+        return None
