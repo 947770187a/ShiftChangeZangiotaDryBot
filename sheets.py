@@ -67,11 +67,34 @@ class GoogleSheets:
 
         print("=" * 50)
 
+    # -----------------------------
+    # USERS
+    # -----------------------------
+
     def get_users(self):
         return self.users.get_all_records()
 
+    def get_user_by_id(self, user_id):
+
+        users = self.users.get_all_records()
+
+        for user in users:
+
+            if user["UserID"] == user_id:
+                return user
+
+        return None
+
+    # -----------------------------
+    # QUESTIONS
+    # -----------------------------
+
     def get_questions(self):
         return self.questions.get_all_records()
+
+    # -----------------------------
+    # SCHEDULE
+    # -----------------------------
 
     def get_schedule(self):
         return self.schedule.get_all_records()
@@ -86,6 +109,10 @@ class GoogleSheets:
 
                 self.schedule.update_cell(i, 5, "TRUE")
                 return
+
+    # -----------------------------
+    # SESSIONS
+    # -----------------------------
 
     def save_session(self, session):
 
