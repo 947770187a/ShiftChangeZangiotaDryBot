@@ -17,7 +17,7 @@ class StateManager:
         user,
         message
     ):
-
+        print(f">>> process_message: {session['Status']}")
         status = session["Status"]
 
         if status == "WAITING_SENDER_ANSWER":
