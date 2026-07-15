@@ -32,7 +32,7 @@ class GoogleSheets:
 
             data = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"])
             print("ENV EXISTS:", "GOOGLE_SERVICE_ACCOUNT_JSON" in os.environ)
-print("ENV LENGTH:", len(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"]))
+            print("ENV LENGTH:", len(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"]))
 
             creds = Credentials.from_service_account_info(
                 data,
