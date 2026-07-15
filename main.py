@@ -1,37 +1,21 @@
 import asyncio
 
 from sheets import GoogleSheets
+from scheduler import Scheduler
 from bot import run_bot
 
 
 async def main():
 
-    print()
-    print("========================================")
+    print("=" * 40)
     print("Shift Change Bot")
-    print("========================================")
-    print()
+    print("=" * 40)
 
     sheets = GoogleSheets()
-
     sheets.test_connection()
 
-    users = sheets.get_users()
-
-    print(f"Загружено пользователей: {len(users)}")
-
-    print()
-
-    for user in users:
-        print(
-            f"ID={user['UserID']} | "
-            f"{user['FullName']} | "
-            f"Active={user['Active']}"
-        )
-
-    print()
-    print("Telegram запускается...")
-    print()
+    scheduler = Scheduler(sheets)
+    asyncio.create_task(scheduler.start())
 
     await run_bot()
 
