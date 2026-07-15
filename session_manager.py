@@ -20,7 +20,7 @@ class SessionManager:
             "ReceiverUserID": "",
             "Status": "CREATED",
             "AcceptDateTime": "",
-            "FinishDateTime": ""
+            "FinishDateTime": "",
             "CurrentQuestionOrder": 1
         }
 
