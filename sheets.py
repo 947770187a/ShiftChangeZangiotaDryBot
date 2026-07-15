@@ -215,7 +215,7 @@ class GoogleSheets:
 
     def get_session_by_receiver(self, user_id):
 
-        for session in self.sessions.get_all_records():
+        for session in reversed(self.sessions.get_all_records()):
 
             if (
                 session["ReceiverUserID"] == user_id
@@ -250,7 +250,7 @@ class GoogleSheets:
 
     def get_active_session_by_sender(self, user_id):
 
-        for session in self.sessions.get_all_records():
+        for session in reversed(self.sessions.get_all_records()):
 
             if (
                 session["SenderUserID"] == user_id
