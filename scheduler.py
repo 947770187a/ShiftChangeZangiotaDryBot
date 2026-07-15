@@ -22,7 +22,7 @@ class Scheduler:
 
                 print(f"[Scheduler] ERROR: {e}")
 
-            await asyncio.sleep(60)
+            await asyncio.sleep(5)
             
     async def check_schedule(self):
 
