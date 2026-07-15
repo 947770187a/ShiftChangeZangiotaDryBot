@@ -1,43 +1,41 @@
+import asyncio
+
 from sheets import GoogleSheets
+from bot import run_bot
 
 
-def main():
+async def main():
+
     print()
     print("========================================")
-    print("   Shift Change Bot v0.1")
+    print("Shift Change Bot")
     print("========================================")
     print()
 
-    try:
-        sheets = GoogleSheets()
+    sheets = GoogleSheets()
 
-        sheets.test_connection()
+    sheets.test_connection()
 
-        users = sheets.get_users()
+    users = sheets.get_users()
 
-        print(f"Загружено пользователей: {len(users)}")
+    print(f"Загружено пользователей: {len(users)}")
 
-        print()
+    print()
 
-        for user in users:
-            print(
-                f"ID={user['UserID']} | "
-                f"{user['FullName']} | "
-                f"Active={user['Active']}"
-            )
+    for user in users:
 
-        print()
-        print("✓ Проверка завершена успешно")
+        print(
+            f"ID={user['UserID']} | "
+            f"{user['FullName']} | "
+            f"Active={user['Active']}"
+        )
 
-    except Exception as e:
+    print()
+    print("Telegram запускается...")
+    print()
 
-        print()
-        print("========================================")
-        print("ОШИБКА")
-        print("========================================")
-        print(e)
-        print("========================================")
+    await run_bot()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
