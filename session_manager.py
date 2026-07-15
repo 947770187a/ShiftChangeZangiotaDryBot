@@ -21,6 +21,8 @@ class SessionManager:
             "FinishDateTime": ""
         }
 
+        self.sheets.save_session(session)
+
         print()
         print("=" * 50)
         print("SESSION CREATED")
