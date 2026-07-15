@@ -85,4 +85,4 @@ class GoogleSheets:
 
             self.schedule.update_cell(i, 5, "TRUE")
 
-            return    
+        return    
