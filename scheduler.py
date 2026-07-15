@@ -26,9 +26,17 @@ class Scheduler:
             
     async def check_schedule(self):
 
+        print("check_schedule() called")
+        
+        schedules = self.sheets.get_schedule()
+        
         from datetime import datetime
 
         schedules = self.sheets.get_schedule()
+        
+        print(schedules)
+
+        for schedule in schedules:
 
         for schedule in schedules:
 
