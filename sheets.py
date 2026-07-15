@@ -175,3 +175,57 @@ class GoogleSheets:
             return ""
 
         return rows[0].get(template_name, "")
+
+    # ==========================================================
+    # SESSIONS
+    # ==========================================================
+
+    def get_sessions(self):
+        return self.sessions.get_all_records()
+
+    def get_session_by_sender(self, user_id):
+
+        for session in self.sessions.get_all_records():
+
+            if (
+                session["SenderUserID"] == user_id
+                and session["FinishDateTime"] == ""
+            ):
+                return session
+
+        return None
+
+    def get_session_by_receiver(self, user_id):
+
+        for session in self.sessions.get_all_records():
+
+            if (
+                session["ReceiverUserID"] == user_id
+                and session["FinishDateTime"] == ""
+            ):
+                return session
+
+        return None
+
+    def update_session(self, session_id, column, value):
+
+        records = self.sessions.get_all_records()
+
+        headers = self.sessions.row_values(1)
+
+        if column not in headers:
+            return
+
+        column_index = headers.index(column) + 1
+
+        for row_index, row in enumerate(records, start=2):
+
+            if row["SessionID"] == session_id:
+
+                self.sessions.update_cell(
+                    row_index,
+                    column_index,
+                    value
+                )
+
+                return
