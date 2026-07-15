@@ -13,6 +13,8 @@ async def main():
 
     sheets = GoogleSheets()
     sheets.test_connection()
+    print("RAW SCHEDULE:")
+    print(sheets.schedule.get_all_values())
 
     scheduler = Scheduler(sheets)
     asyncio.create_task(scheduler.start())
