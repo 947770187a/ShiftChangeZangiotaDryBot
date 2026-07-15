@@ -59,7 +59,41 @@ class StateManager:
         data
     ):
 
-        print(f"Callback: {data}")
+        if not data.startswith("receiver:"):
+            return
+
+        receiver_user_id = data.split(":")[1]
+
+        self.sheets.update_session_receiver(
+            session["SessionID"],
+            receiver_user_id
+        )
+
+        self.sheets.update_session_status(
+            session["SessionID"],
+            "WAITING_RECEIVER_ANSWER"
+        )
+
+        receiver = self.sheets.get_user_by_id(
+            receiver_user_id
+        )
+
+        if receiver is None:
+            print("Receiver not found")
+            return
+
+        template = self.sheets.get_template(
+            "ReceiverRequest"
+        )
+
+        await self.bot.send_message(
+            chat_id=int(receiver["TelegramID"]),
+            text=template
+        )
+
+        print(
+            f"Receiver selected: {receiver['FullName']}"
+        )
 
     async def process_sender_answer(
         self,
