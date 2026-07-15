@@ -23,16 +23,38 @@ class Scheduler:
                 print(f"[Scheduler] ERROR: {e}")
 
             await asyncio.sleep(60)
+async def check_schedule(self):
 
-    async def check_schedule(self):
+    from datetime import datetime
 
-        schedules = self.sheets.get_schedule()
+    schedules = self.sheets.get_schedule()
 
-        print(f"Найдено записей Schedule: {len(schedules)}")
+    for schedule in schedules:
 
-        for schedule in schedules:
+        if schedule["Active"] != "TRUE":
+            continue
 
-            print(schedule)
+        if schedule["Executed"] == "TRUE":
+            continue
 
-        # Пока только проверяем, что Scheduler живой.
-        # Логику запуска Session добавим следующим шагом.
+        start_time = datetime.strptime(
+            schedule["StartDateTime"],
+            "%d.%m.%Y %H:%M"
+        )
+
+        if start_time > datetime.now():
+            continue
+
+        print()
+        print("======================================")
+        print("READY TO START SESSION")
+        print(f"ScheduleID : {schedule['ScheduleID']}")
+        print(f"Sender     : {schedule['SenderUserID']}")
+        print(f"StartTime  : {schedule['StartDateTime']}")
+        print("======================================")
+        print()
+
+        self.sheets.update_schedule_executed(
+            schedule["ScheduleID"]
+        )
+ 
