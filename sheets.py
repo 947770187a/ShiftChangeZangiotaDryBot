@@ -145,6 +145,7 @@ class GoogleSheets:
             session["Status"],
             session["AcceptDateTime"],
             session["FinishDateTime"]
+            session["CurrentQuestionOrder"]
         ])
 
     # ==========================================================
