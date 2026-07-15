@@ -1,6 +1,8 @@
 import uuid
 from datetime import datetime
 
+from bot import send_text
+
 
 class SessionManager:
 
@@ -8,7 +10,7 @@ class SessionManager:
 
         self.sheets = sheets
 
-    def create_session(self, schedule):
+    async def create_session(self, schedule):
 
         session = {
             "SessionID": str(uuid.uuid4()),
@@ -22,6 +24,23 @@ class SessionManager:
         }
 
         self.sheets.save_session(session)
+
+        user = self.sheets.get_user_by_id(
+            schedule["SenderUserID"]
+        )
+
+        if user is None:
+
+            print("Sender not found")
+
+            return
+
+        telegram_id = user["TelegramID"]
+
+        await send_text(
+            int(telegram_id),
+            "🚚 Начинаем передачу смены.\n\nПодготовьтесь к ответам на вопросы."
+        )
 
         print()
         print("=" * 50)
