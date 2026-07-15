@@ -1,7 +1,7 @@
 import asyncio
+from datetime import datetime
 
 from session_manager import SessionManager
-from datetime import datetime
 
 
 class Scheduler:
@@ -13,27 +13,21 @@ class Scheduler:
 
     async def start(self):
 
-        print("Scheduler started V2")
+        print("Scheduler started")
 
         while True:
 
             try:
-
                 await self.check_schedule()
 
             except Exception as e:
-
                 print(f"[Scheduler] ERROR: {e}")
 
             await asyncio.sleep(5)
-            
+
     async def check_schedule(self):
 
-        print("check_schedule() called")
-
         schedules = self.sheets.get_schedule()
-
-        print(schedules)
 
         for schedule in schedules:
 
@@ -51,7 +45,7 @@ class Scheduler:
             if start_time > datetime.now():
                 continue
 
-            session = self.session_manager.create_session(schedule)
+            await self.session_manager.create_session(schedule)
 
             self.sheets.update_schedule_executed(
                 schedule["ScheduleID"]
