@@ -79,10 +79,10 @@ class GoogleSheets:
 
     records = self.schedule.get_all_records()
 
-    for i, row in enumerate(records, start=2):
+        for i, row in enumerate(records, start=2):
 
         if row["ScheduleID"] == schedule_id:
 
             self.schedule.update_cell(i, 5, "TRUE")
 
-        return    
+            return    
