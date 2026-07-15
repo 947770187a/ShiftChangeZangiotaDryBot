@@ -1,177 +1,74 @@
-import os
-import json
+import uuid
+from datetime import datetime
 
-import gspread
-from google.oauth2.service_account import Credentials
-
-from config import (
-    GOOGLE_CREDENTIALS_FILE,
-    GOOGLE_SHEET_NAME,
-    SHEET_USERS,
-    SHEET_QUESTIONS,
-    SHEET_SCHEDULE,
-    SHEET_SESSIONS,
-    SHEET_ANSWERS,
-    SHEET_SETTINGS,
-    SHEET_TEMPLATES,
-    SHEET_LOG
-)
-
-SCOPES = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive"
-]
+from bot import send_text
 
 
-class GoogleSheets:
+class SessionManager:
 
-    def __init__(self):
+    def __init__(self, sheets):
 
-        if os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON"):
+        self.sheets = sheets
 
-            data = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"])
+    async def create_session(self, schedule):
 
-            creds = Credentials.from_service_account_info(
-                data,
-                scopes=SCOPES
-            )
+        session = {
+            "SessionID": str(uuid.uuid4()),
+            "ScheduleID": schedule["ScheduleID"],
+            "StartDateTime": datetime.now().strftime("%d.%m.%Y %H:%M:%S"),
+            "SenderUserID": schedule["SenderUserID"],
+            "ReceiverUserID": "",
+            "Status": "CREATED",
+            "AcceptDateTime": "",
+            "FinishDateTime": ""
+        }
 
-        else:
+        # Сохраняем Session
+        self.sheets.save_session(session)
 
-            creds = Credentials.from_service_account_file(
-                GOOGLE_CREDENTIALS_FILE,
-                scopes=SCOPES
-            )
-
-        self.client = gspread.authorize(creds)
-        self.book = self.client.open(GOOGLE_SHEET_NAME)
-
-        self.users = self.book.worksheet(SHEET_USERS)
-        self.questions = self.book.worksheet(SHEET_QUESTIONS)
-        self.schedule = self.book.worksheet(SHEET_SCHEDULE)
-        self.sessions = self.book.worksheet(SHEET_SESSIONS)
-        self.answers = self.book.worksheet(SHEET_ANSWERS)
-        self.settings = self.book.worksheet(SHEET_SETTINGS)
-        self.templates = self.book.worksheet(SHEET_TEMPLATES)
-        self.log = self.book.worksheet(SHEET_LOG)
-
-    # ==========================================================
-    # SERVICE
-    # ==========================================================
-
-    def test_connection(self):
-
-        print("=" * 50)
-        print("GOOGLE SHEETS CONNECTED")
-        print("=" * 50)
-
-        print(f"Users: {self.users.row_count}")
-        print(f"Questions: {self.questions.row_count}")
-        print(f"Schedule: {self.schedule.row_count}")
-
-        print("=" * 50)
-
-    # ==========================================================
-    # USERS
-    # ==========================================================
-
-    def get_users(self):
-        return self.users.get_all_records()
-
-    def get_user_by_id(self, user_id):
-
-        for user in self.users.get_all_records():
-
-            if user["UserID"] == user_id:
-                return user
-
-        return None
-
-    # ==========================================================
-    # QUESTIONS
-    # ==========================================================
-
-    def get_questions(self):
-        return self.questions.get_all_records()
-
-    def get_sender_questions(self):
-
-        questions = []
-
-        for question in self.questions.get_all_records():
-
-            if (
-                question["Role"] == "Sender"
-                and question["Active"] == "TRUE"
-            ):
-                questions.append(question)
-
-        questions.sort(
-            key=lambda q: int(q["QuestionOrder"])
+        # Находим пользователя
+        user = self.sheets.get_user_by_id(
+            schedule["SenderUserID"]
         )
 
-        return questions
+        if user is None:
 
-    # ==========================================================
-    # SCHEDULE
-    # ==========================================================
+            print("Sender not found")
 
-    def get_schedule(self):
-        return self.schedule.get_all_records()
+            return
 
-    def update_schedule_executed(self, schedule_id):
+        telegram_id = int(user["TelegramID"])
 
-        records = self.schedule.get_all_records()
+        # Отправляем стартовое сообщение
+        sender_start = self.sheets.get_template("SenderStart")
 
-        for i, row in enumerate(records, start=2):
+        if sender_start:
+            await send_text(
+                telegram_id,
+                sender_start
+            )
 
-            if row["ScheduleID"] == schedule_id:
+        # Получаем вопросы сдающего
+        questions = self.sheets.get_sender_questions()
 
-                self.schedule.update_cell(i, 5, "TRUE")
-                return
+        if len(questions) == 0:
 
-    # ==========================================================
-    # SESSIONS
-    # ==========================================================
+            print("Sender questions not found")
 
-    def save_session(self, session):
+            return
 
-        self.sessions.append_row([
-            session["SessionID"],
-            session["ScheduleID"],
-            session["StartDateTime"],
-            session["SenderUserID"],
-            session["ReceiverUserID"],
-            session["Status"],
-            session["AcceptDateTime"],
-            session["FinishDateTime"]
-        ])
+        first_question = questions[0]
 
-    # ==========================================================
-    # ANSWERS
-    # ==========================================================
+        await send_text(
+            telegram_id,
+            first_question["Question"]
+        )
 
-    def save_answer(self, answer):
+        print()
+        print("=" * 50)
+        print("SESSION CREATED")
+        print(session)
+        print("=" * 50)
+        print()
 
-        self.answers.append_row([
-            answer["AnswerID"],
-            answer["SessionID"],
-            answer["UserID"],
-            answer["Role"],
-            answer["QuestionID"],
-            answer["Answer"],
-            answer["AnswerDateTime"]
-        ])
-
-    # ==========================================================
-    # MESSAGE TEMPLATES
-    # ==========================================================
-
-    def get_template(self, template_name):
-
-        rows = self.templates.get_all_records()
-
-        if not rows:
-            return ""
-
-        return rows[0].get(template_name, "")
+        return session
