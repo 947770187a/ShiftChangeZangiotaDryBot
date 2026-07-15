@@ -1,6 +1,6 @@
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import CommandStart
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 
 from config import BOT_TOKEN
 
@@ -38,11 +38,35 @@ async def any_message(message: Message):
     )
 
 
+@dp.callback_query()
+async def any_callback(callback: CallbackQuery):
+
+    if conversation_manager is None:
+        await callback.answer()
+        return
+
+    await conversation_manager.process_callback(
+        telegram_id=callback.from_user.id,
+        data=callback.data
+    )
+
+    await callback.answer()
+
+
 async def send_text(chat_id: int, text: str):
 
     await bot.send_message(
         chat_id=chat_id,
         text=text
+    )
+
+
+async def send_message(chat_id: int, text: str, reply_markup=None):
+
+    await bot.send_message(
+        chat_id=chat_id,
+        text=text,
+        reply_markup=reply_markup
     )
 
 
