@@ -1,6 +1,8 @@
 import uuid
 from datetime import datetime
 
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
 
 class StateManager:
 
@@ -49,6 +51,15 @@ class StateManager:
             return
 
         print(f"Unknown status: {status}")
+
+    async def process_callback(
+        self,
+        session,
+        user,
+        data
+    ):
+
+        print(f"Callback: {data}")
 
     async def process_sender_answer(
         self,
@@ -115,7 +126,30 @@ class StateManager:
             "WAITING_RECEIVER_CONFIRM"
         )
 
-        print("Sender questionnaire completed.")
+        receivers = self.sheets.get_available_receivers(
+            session["SenderUserID"]
+        )
+
+        keyboard = []
+
+        for receiver in receivers:
+
+            keyboard.append([
+                InlineKeyboardButton(
+                    text=receiver["FullName"],
+                    callback_data=f"receiver:{receiver['UserID']}"
+                )
+            ])
+
+        markup = InlineKeyboardMarkup(
+            inline_keyboard=keyboard
+        )
+
+        await self.bot.send_message(
+            chat_id=int(user["TelegramID"]),
+            text="Выберите принимающего сотрудника:",
+            reply_markup=markup
+        )
 
     async def process_receiver_confirm(
         self,
