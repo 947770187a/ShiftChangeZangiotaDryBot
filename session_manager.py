@@ -18,7 +18,7 @@ class SessionManager:
             "StartDateTime": datetime.now().strftime("%d.%m.%Y %H:%M:%S"),
             "SenderUserID": schedule["SenderUserID"],
             "ReceiverUserID": "",
-            "Status": "CREATED",
+            "Status": "WAITING_SENDER_ANSWER",
             "AcceptDateTime": "",
             "FinishDateTime": "",
             "CurrentQuestionOrder": 1
