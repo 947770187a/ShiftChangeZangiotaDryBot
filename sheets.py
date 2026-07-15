@@ -266,3 +266,20 @@ class GoogleSheets:
             "Status",
             status
         )
+    def get_available_receivers(self, sender_user_id):
+
+        users = []
+
+        for user in self.get_users():
+
+            if user["Active"] != "TRUE":
+                continue
+
+            if user["UserID"] == sender_user_id:
+                continue
+
+            users.append(user)
+
+        users.sort(key=lambda u: u["FullName"])
+
+        return users
