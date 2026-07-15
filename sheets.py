@@ -1,3 +1,6 @@
+import os
+import json
+import tempfile
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -23,10 +26,19 @@ SCOPES = [
 class GoogleSheets:
 
     def __init__(self):
-        creds = Credentials.from_service_account_file(
-            GOOGLE_CREDENTIALS_FILE,
-            scopes=SCOPES
-        )
+json_env = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
+
+if json_env:
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
+        f.write(json_env)
+        creds_file = f.name
+else:
+    creds_file = GOOGLE_CREDENTIALS_FILE
+
+creds = Credentials.from_service_account_file(
+    creds_file,
+    scopes=SCOPES
+)
 
         self.client = gspread.authorize(creds)
         self.book = self.client.open(GOOGLE_SHEET_NAME)
