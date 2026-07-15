@@ -23,7 +23,6 @@ async def main():
     print()
 
     for user in users:
-
         print(
             f"ID={user['UserID']} | "
             f"{user['FullName']} | "
