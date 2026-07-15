@@ -3,10 +3,11 @@ from state_manager import StateManager
 
 class ConversationManager:
 
-    def __init__(self, sheets):
+    def __init__(self, sheets, bot):
 
         self.sheets = sheets
-        self.state_manager = StateManager(sheets)
+        self.bot = bot
+        self.state_manager = StateManager(sheets, bot)
 
     async def process_telegram_message(
         self,
@@ -19,7 +20,7 @@ class ConversationManager:
         if user is None:
             return
 
-        session = self.sheets.get_session_by_sender(
+        session = self.sheets.get_active_session_by_sender(
             user["UserID"]
         )
 
