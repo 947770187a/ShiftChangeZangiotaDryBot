@@ -243,17 +243,26 @@ class GoogleSheets:
 
         return None
 
-    def update_session_question_order(self, session_id, question_order):
-
-    self.update_session(
+    def update_session_question_order(
+        self,
         session_id,
-        "CurrentQuestionOrder",
         question_order
-    )
-    def update_session_status(self, session_id, status):
+    ):
 
-    self.update_session(
+        self.update_session(
+            session_id,
+            "CurrentQuestionOrder",
+            question_order
+        )
+
+    def update_session_status(
+        self,
         session_id,
-        "Status",
         status
-    )
+    ):
+
+        self.update_session(
+            session_id,
+            "Status",
+            status
+        )
