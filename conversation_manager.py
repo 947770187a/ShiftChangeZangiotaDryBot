@@ -10,12 +10,12 @@ class ConversationManager:
         self.state_manager = StateManager(sheets, bot)
 
     async def process_telegram_message(
-        print(">>> process_telegram_message")
+        
         self,
         telegram_id,
         text
     ):
-
+        print(">>> process_telegram_message") 
         user = self.find_user_by_telegram(telegram_id)
 
         if user is None:
