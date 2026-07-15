@@ -110,7 +110,7 @@ class StateManager:
         user,
         message
     ):
-
+        print(">>> process_sender_answer")
         questions = self.sheets.get_sender_questions()
 
         current_order = int(session["CurrentQuestionOrder"])
