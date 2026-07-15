@@ -10,6 +10,7 @@ class ConversationManager:
         self.state_manager = StateManager(sheets, bot)
 
     async def process_telegram_message(
+        print(">>> process_telegram_message")
         self,
         telegram_id,
         text
