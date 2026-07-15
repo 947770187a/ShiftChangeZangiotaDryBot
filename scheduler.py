@@ -10,7 +10,7 @@ class Scheduler:
 
     async def start(self):
 
-        print("Scheduler started")
+        print("Scheduler started V2")
 
         while True:
 
