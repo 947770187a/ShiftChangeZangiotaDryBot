@@ -31,12 +31,13 @@ class GoogleSheets:
         if os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON"):
 
             data = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"])
-            print("ENV EXISTS:", "GOOGLE_SERVICE_ACCOUNT_JSON" in os.environ)
-            print("ENV LENGTH:", len(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"]))
+            print("CLIENT EMAIL:", data["client_email"])
+            print("PROJECT:", data["project_id"])
+            print("KEY ID:", data["private_key_id"])
 
             creds = Credentials.from_service_account_info(
-                data,
-                scopes=SCOPES
+             data,
+             scopes=SCOPES
             )
 
         else:
