@@ -1,8 +1,9 @@
 class StateManager:
 
-    def __init__(self, sheets):
+    def __init__(self, sheets, bot):
 
         self.sheets = sheets
+        self.bot=bot
 
     async def process_message(
         self,
