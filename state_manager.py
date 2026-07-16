@@ -58,16 +58,7 @@ class StateManager:
         user,
         data
     ):
-        sender = self.sheets.get_user_by_id(
-            session["SenderUserID"]
-        )
-        template = (
-            f"{template}\n\n"
-            f"Сдающий:\n"
-            f"{sender['FullName']}\n\n"
-            f"Краткая информация:\n\n"
-            f"{summary}"
-        )
+
         print(f">>> CALLBACK: {data}")
         
         if data == "accept":
