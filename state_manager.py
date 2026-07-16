@@ -52,7 +52,7 @@ class StateManager:
 
         print(f"Unknown status: {status}")
         
-    async def process_callback(
+        async def process_callback(
         self,
         session,
         user,
@@ -109,35 +109,35 @@ class StateManager:
             ]
         )
 
-    await self.bot.send_message(
-        chat_id=int(receiver["TelegramID"]),
-        text=template,
-        reply_markup=keyboard
-    )
+            await self.bot.send_message(
+                chat_id=int(receiver["TelegramID"]),
+                text=template,
+                reply_markup=keyboard
+            )
 
-    async def process_sender_answer(
-        self,
-        session,
-        user,
-        message
-    ):
-        print(">>> process_sender_answer")
-        questions = self.sheets.get_sender_questions()
+        async def process_sender_answer(
+            self,
+            session,
+            user,
+            message
+        ):
+            print(">>> process_sender_answer")
+            questions = self.sheets.get_sender_questions()
 
-        current_order = int(session["CurrentQuestionOrder"])
+            current_order = int(session["CurrentQuestionOrder"])
 
-        current_question = None
+            current_question = None
 
-        for question in questions:
+            for question in questions:
 
-            if int(question["QuestionOrder"]) == current_order:
-                current_question = question
-                break
+                if int(question["QuestionOrder"]) == current_order:
+                    current_question = question
+                    break
 
-        if current_question is None:
+            if current_question is None:
 
-            print("Current question not found")
-            return
+                print("Current question not found")
+                return
 
         answer = {
             "AnswerID": str(uuid.uuid4()),
