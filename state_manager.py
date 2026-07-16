@@ -79,6 +79,10 @@ class StateManager:
                 session["SessionID"],
                 "WAITING_RECEIVER_ANSWER"
             )
+            self.sheets.update_session_question_order(
+                session["SessionID"],
+                1
+            )
             print("Loading receiver questions...")
             questions = self.sheets.get_receiver_questions()
             print(questions)
@@ -156,35 +160,35 @@ class StateManager:
         template = self.sheets.get_template(
             "ReceiverRequest"
         )
+
         print("Template:", template)
 
-                answers = self.sheets.get_answers_by_session(
-                    session["SessionID"]
-                )
+        answers = self.sheets.get_answers_by_session(
+            session["SessionID"]
+        )
 
-                summary = ""
+        summary = ""
 
-                for answer in answers:
+        for answer in answers:
 
-                    question = self.sheets.get_question_by_id(
-                        answer["QuestionID"]
-                    )
+            question = self.sheets.get_question_by_id(
+                answer["QuestionID"]
+            )
 
-                    if question is None:
-                        continue
+            if question is None:
+                continue
 
-                    summary += (
-                        f"• {question['Question']}: "
-                        f"{answer['Answer']}\n"
-                    )
+            summary += (
+                f"• {question['Question']}: "
+                f"{answer['Answer']}\n"
+            )
 
-                template = (
-                    template
-                    + "\n\n"
-                    + "Краткая информация:\n\n"
-                    + summary
-                )
-
+        template = (
+            template
+            + "\n\n"
+            + "Краткая информация:\n\n"
+            + summary
+        )
         keyboard = InlineKeyboardMarkup(
             inline_keyboard=[
                 [
