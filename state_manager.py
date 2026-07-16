@@ -58,7 +58,9 @@ class StateManager:
         user,
         data
     ):
+        
         print(f">>> CALLBACK: {data}")
+        
         if data == "accept":
             self.sheets.update_session(
                 session["SessionID"],
