@@ -70,6 +70,17 @@ class GoogleSheets:
         print(f"Schedule: {self.schedule.row_count}")
 
         print("=" * 50)
+        
+    def get_setting(self, key):
+
+        rows = self.settings.get_all_records()
+
+        for row in rows:
+
+            if row["Key"] == key:
+                return row["Value"]
+
+        return ""
 
     # ==========================================================
     # USERS
