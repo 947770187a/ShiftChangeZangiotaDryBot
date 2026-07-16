@@ -173,6 +173,8 @@ class StateManager:
         
         for answer in answers:
 
+            print(answer)
+
             question = self.sheets.get_question_by_id(
                 answer["QuestionID"]
             )
@@ -196,11 +198,16 @@ class StateManager:
             f"{summary}"
         )
         
+        sender = self.sheets.get_user_by_id(
+            session["SenderUserID"]
+        )
+
         template = (
-            template
-            + "\n\n"
-            + "Краткая информация:\n\n"
-            + summary
+            f"{template}\n\n"
+            f"Сдающий:\n"
+            f"{sender['FullName']}\n\n"
+            f"Краткая информация:\n\n"
+            f"{summary}"
         )
         keyboard = InlineKeyboardMarkup(
             inline_keyboard=[
