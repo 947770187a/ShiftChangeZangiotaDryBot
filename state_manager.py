@@ -81,6 +81,7 @@ class StateManager:
         receiver = self.sheets.get_user_by_id(
             receiver_user_id
         )
+        print("Receiver:", receiver)
 
         if receiver is None:
             return
@@ -88,6 +89,7 @@ class StateManager:
         template = self.sheets.get_template(
             "ReceiverRequest"
         )
+        print("Template:", template)
 
         await self.bot.send_message(
             chat_id=int(receiver["TelegramID"]),
@@ -98,7 +100,8 @@ class StateManager:
 
         if len(questions) == 0:
             return
-
+        print("TelegramID:", receiver["TelegramID"])
+        print("Sending ReceiverRequest...")
         await self.bot.send_message(
             chat_id=int(receiver["TelegramID"]),
             text=questions[0]["Question"]
