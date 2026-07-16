@@ -181,7 +181,19 @@ class GoogleSheets:
             answer["Answer"],
             answer["AnswerDateTime"]
         ])
+    def get_answers_by_session(self, session_id):
 
+        result = []
+
+        for answer in self.answers.get_all_records():
+
+            if (
+                answer["SessionID"] == session_id
+                and answer["Role"] == "Sender"
+            ):
+                result.append(answer)
+
+        return result
     # ==========================================================
     # MESSAGE TEMPLATES
     # ==========================================================
