@@ -109,18 +109,18 @@ class StateManager:
             ]
         )
 
-            await self.bot.send_message(
-                chat_id=int(receiver["TelegramID"]),
-                text=template,
-                reply_markup=keyboard
-            )
+        await self.bot.send_message(
+            chat_id=int(receiver["TelegramID"]),
+            text=template,
+            reply_markup=keyboard
+        )
 
-        async def process_sender_answer(
-            self,
-            session,
-            user,
-            message
-        ):
+    async def process_sender_answer(
+        self,
+        session,
+        user,
+        message
+    ):
             print(">>> process_sender_answer")
             questions = self.sheets.get_sender_questions()
 
@@ -168,12 +168,12 @@ class StateManager:
                 next_order
             )
 
-            await self.bot.send_message(
-                chat_id=int(user["TelegramID"]),
-                text=next_question["Question"]
-            )
+        await self.bot.send_message(
+            chat_id=int(user["TelegramID"]),
+            text=next_question["Question"]
+        )
 
-            return
+        return
 
         self.sheets.update_session_status(
             session["SessionID"],
