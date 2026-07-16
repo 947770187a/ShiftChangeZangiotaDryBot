@@ -58,7 +58,66 @@ class StateManager:
         user,
         data
     ):
+        if data == "accept":
 
+            self.sheets.update_session(
+                session["SessionID"],
+                "AcceptDateTime",
+                datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+            )
+
+            self.sheets.update_session(
+                session["SessionID"],
+                "AcceptResult",
+                "ACCEPTED"
+            )
+
+            self.sheets.update_session_status(
+                session["SessionID"],
+                "WAITING_RECEIVER_ANSWER"
+            )
+
+            questions = self.sheets.get_receiver_questions()
+
+            if len(questions) > 0:
+
+                await self.bot.send_message(
+                    chat_id=int(user["TelegramID"]),
+                    text=questions[0]["Question"]
+                )
+
+            return
+
+
+        if data == "reject":
+
+            self.sheets.update_session(
+                session["SessionID"],
+                "AcceptDateTime",
+                datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+            )
+
+            self.sheets.update_session(
+                session["SessionID"],
+                "AcceptResult",
+                "REJECTED"
+            )
+
+            self.sheets.update_session_status(
+                session["SessionID"],
+                "WAITING_RECEIVER_ANSWER"
+            )
+
+            questions = self.sheets.get_receiver_questions()
+
+            if len(questions) > 0:
+
+                await self.bot.send_message(
+                    chat_id=int(user["TelegramID"]),
+                    text=questions[0]["Question"]
+                )
+
+            return
         if not data.startswith("receiver:"):
             return
 
@@ -76,7 +135,7 @@ class StateManager:
 
         self.sheets.update_session_status(
             session["SessionID"],
-            "WAITING_RECEIVER_ANSWER"
+            "WAITING_RECEIVER_CONFIRM"
         )
 
         receiver = self.sheets.get_user_by_id(
