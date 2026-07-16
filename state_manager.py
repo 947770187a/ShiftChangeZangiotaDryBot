@@ -53,12 +53,14 @@ class StateManager:
         print(f"Unknown status: {status}")
         
     async def process_callback(
+        print(f">>> CALLBACK: {data}")
         self,
         session,
         user,
         data
     ):
         if data == "accept":
+            print(">>> ACCEPT")
 
             self.sheets.update_session(
                 session["SessionID"],
@@ -76,8 +78,9 @@ class StateManager:
                 session["SessionID"],
                 "WAITING_RECEIVER_ANSWER"
             )
-
+            print("Loading receiver questions...")
             questions = self.sheets.get_receiver_questions()
+            print(questions)
 
             if len(questions) > 0:
 
