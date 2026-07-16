@@ -139,7 +139,7 @@ class StateManager:
             print("Current question not found")
             return
 
-            answer = {
+        answer = {
                "AnswerID": str(uuid.uuid4()),
                 "SessionID": session["SessionID"],
                 "UserID": user["UserID"],
@@ -173,7 +173,7 @@ class StateManager:
                 text=next_question["Question"]
             )
 
-        return
+            return
 
         self.sheets.update_session_status(
             session["SessionID"],
