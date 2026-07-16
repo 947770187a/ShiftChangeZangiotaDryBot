@@ -20,6 +20,10 @@ def set_conversation_manager(manager):
 @dp.message(CommandStart())
 async def start(message: Message):
 
+    print(
+        f"CHAT ID = {message.chat.id}, TYPE = {message.chat.type}"
+    )
+
     await message.answer(
         "✅ Shift Change Bot запущен.\n\n"
         "Добро пожаловать!"
