@@ -221,4 +221,5 @@ class StateManager:
         message
     ):
 
-        print("Receiver answer")
+        print(">>> process_receiver_answer")
+        print(session)
