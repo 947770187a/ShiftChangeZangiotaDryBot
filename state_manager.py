@@ -53,21 +53,19 @@ class StateManager:
         print(f"Unknown status: {status}")
         
     async def process_callback(
-        print(f">>> CALLBACK: {data}")
         self,
         session,
         user,
         data
     ):
+        print(f">>> CALLBACK: {data}")
         if data == "accept":
-            print(">>> ACCEPT")
-
             self.sheets.update_session(
                 session["SessionID"],
                 "AcceptDateTime",
                 datetime.now().strftime("%d.%m.%Y %H:%M:%S")
             )
-
+        print(">>> ACCEPT")
             self.sheets.update_session(
                 session["SessionID"],
                 "AcceptResult",
