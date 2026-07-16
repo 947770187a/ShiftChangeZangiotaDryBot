@@ -91,21 +91,28 @@ class StateManager:
         )
         print("Template:", template)
 
-        await self.bot.send_message(
-            chat_id=int(receiver["TelegramID"]),
-            text=template
+        keyboard = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(
+                        text="✅ Принять",
+                        callback_data="accept"
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        text="❌ Отклонить",
+                        callback_data="reject"
+                    )
+                ]
+            ]
         )
 
-        questions = self.sheets.get_receiver_questions()
-
-        if len(questions) == 0:
-            return
-        print("TelegramID:", receiver["TelegramID"])
-        print("Sending ReceiverRequest...")
-        await self.bot.send_message(
-            chat_id=int(receiver["TelegramID"]),
-            text=questions[0]["Question"]
-        )
+await self.bot.send_message(
+    chat_id=int(receiver["TelegramID"]),
+    text=template,
+    reply_markup=keyboard
+)
 
     async def process_sender_answer(
         self,
