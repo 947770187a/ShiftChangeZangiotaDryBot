@@ -194,6 +194,14 @@ class GoogleSheets:
                 result.append(answer)
 
         return result
+    def get_question_by_id(self, question_id):
+
+    for question in self.questions.get_all_records():
+
+        if question["QuestionID"] == question_id:
+            return question
+
+    return None
     # ==========================================================
     # MESSAGE TEMPLATES
     # ==========================================================
