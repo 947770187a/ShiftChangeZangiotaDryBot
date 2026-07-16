@@ -62,12 +62,13 @@ class StateManager:
         print(f">>> CALLBACK: {data}")
         
         if data == "accept":
+            print(">>> ACCEPT")            
             self.sheets.update_session(
                 session["SessionID"],
                 "AcceptDateTime",
                 datetime.now().strftime("%d.%m.%Y %H:%M:%S")
             )
-        print(">>> ACCEPT")
+
             self.sheets.update_session(
                 session["SessionID"],
                 "AcceptResult",
@@ -110,7 +111,10 @@ class StateManager:
                 session["SessionID"],
                 "WAITING_RECEIVER_ANSWER"
             )
-
+            self.sheets.update_session_question_order(
+                session["SessionID"],
+                1
+            )            
             questions = self.sheets.get_receiver_questions()
 
             if len(questions) > 0:
@@ -283,7 +287,7 @@ class StateManager:
         message
     ):
 
-                questions = self.sheets.get_receiver_questions()
+        questions = self.sheets.get_receiver_questions()
 
         current_order = int(session["CurrentQuestionOrder"])
 
