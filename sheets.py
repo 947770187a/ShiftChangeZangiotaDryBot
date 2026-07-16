@@ -202,7 +202,7 @@ class GoogleSheets:
             if question["QuestionID"] == question_id:
                 return question
 
-            return None
+        return None
     # ==========================================================
     # MESSAGE TEMPLATES
     # ==========================================================
