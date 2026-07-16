@@ -51,6 +51,7 @@ class StateManager:
             return
 
         print(f"Unknown status: {status}")
+        
     async def process_callback(
         self,
         session,
