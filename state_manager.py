@@ -393,3 +393,51 @@ class StateManager:
             chat_id=int(user["TelegramID"]),
             text="✅ Передача смены завершена."
         )
+group_id = self.sheets.get_setting(
+    "TelegramGroupID"
+)
+
+if group_id != "":
+
+    sender = self.sheets.get_user_by_id(
+        session["SenderUserID"]
+    )
+
+    receiver = self.sheets.get_user_by_id(
+        session["ReceiverUserID"]
+    )
+
+    answers = self.sheets.get_answers_by_session(
+        session["SessionID"]
+    )
+
+    summary = ""
+
+    for answer in answers:
+
+        question = self.sheets.get_question_by_id(
+            answer["QuestionID"]
+        )
+
+        if question is None:
+            continue
+
+        summary += (
+            f"• {question['Question']}\n"
+            f"{answer['Answer']}\n\n"
+        )
+
+    group_message = (
+        "📋 Передача смены завершена\n\n"
+        f"Сдающий:\n"
+        f"{sender['FullName']}\n\n"
+        f"Принимающий:\n"
+        f"{receiver['FullName']}\n\n"
+        "────────────────────\n\n"
+        f"{summary}"
+    )
+
+    await self.bot.send_message(
+        chat_id=int(group_id),
+        text=group_message
+    )
