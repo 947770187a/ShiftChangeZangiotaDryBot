@@ -161,6 +161,7 @@ class GoogleSheets:
             session["ReceiverUserID"],
             session["Status"],
             session["AcceptDateTime"],
+            session["AcceptResult"],
             session["FinishDateTime"],
             session["CurrentQuestionOrder"]
         ])
