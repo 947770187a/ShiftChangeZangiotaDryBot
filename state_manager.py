@@ -158,32 +158,32 @@ class StateManager:
         )
         print("Template:", template)
 
-            answers = self.sheets.get_answers_by_session(
-                session["SessionID"]
-            )
-
-            summary = ""
-
-            for answer in answers:
-
-                question = self.sheets.get_question_by_id(
-                    answer["QuestionID"]
+                answers = self.sheets.get_answers_by_session(
+                    session["SessionID"]
                 )
 
-                if question is None:
-                    continue
+                summary = ""
 
-                summary += (
-                    f"• {question['Question']}: "
-                    f"{answer['Answer']}\n"
+                for answer in answers:
+
+                    question = self.sheets.get_question_by_id(
+                        answer["QuestionID"]
+                    )
+
+                    if question is None:
+                        continue
+
+                    summary += (
+                        f"• {question['Question']}: "
+                        f"{answer['Answer']}\n"
+                    )
+
+                template = (
+                    template
+                    + "\n\n"
+                    + "Краткая информация:\n\n"
+                    + summary
                 )
-
-            template = (
-                template
-                + "\n\n"
-                + "Краткая информация:\n\n"
-                + summary
-            )
 
         keyboard = InlineKeyboardMarkup(
             inline_keyboard=[
