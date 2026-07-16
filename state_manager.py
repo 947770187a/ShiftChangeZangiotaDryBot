@@ -169,6 +169,8 @@ class StateManager:
 
         summary = ""
 
+        print("Sender answers:", answers)
+        
         for answer in answers:
 
             question = self.sheets.get_question_by_id(
