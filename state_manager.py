@@ -52,7 +52,7 @@ class StateManager:
 
         print(f"Unknown status: {status}")
         
-        async def process_callback(
+    async def process_callback(
         self,
         session,
         user,
@@ -121,33 +121,33 @@ class StateManager:
         user,
         message
     ):
-            print(">>> process_sender_answer")
-            questions = self.sheets.get_sender_questions()
+        print(">>> process_sender_answer")
+        questions = self.sheets.get_sender_questions()
 
-            current_order = int(session["CurrentQuestionOrder"])
+        current_order = int(session["CurrentQuestionOrder"])
 
-            current_question = None
+        current_question = None
 
-            for question in questions:
+        for question in questions:
 
-                if int(question["QuestionOrder"]) == current_order:
-                    current_question = question
-                    break
+            if int(question["QuestionOrder"]) == current_order:
+                current_question = question
+                break
 
-            if current_question is None:
+        if current_question is None:
 
-                print("Current question not found")
-                return
+            print("Current question not found")
+            return
 
-        answer = {
-            "AnswerID": str(uuid.uuid4()),
-            "SessionID": session["SessionID"],
-            "UserID": user["UserID"],
-            "Role": "Sender",
-            "QuestionID": current_question["QuestionID"],
-            "Answer": message,
-            "AnswerDateTime": datetime.now().strftime("%d.%m.%Y %H:%M:%S")
-        }
+            answer = {
+               "AnswerID": str(uuid.uuid4()),
+                "SessionID": session["SessionID"],
+                "UserID": user["UserID"],
+                "Role": "Sender",
+                "QuestionID": current_question["QuestionID"],
+                "Answer": message,
+                "AnswerDateTime": datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+            }
 
         self.sheets.save_answer(answer)
 
@@ -168,10 +168,10 @@ class StateManager:
                 next_order
             )
 
-        await self.bot.send_message(
-            chat_id=int(user["TelegramID"]),
-            text=next_question["Question"]
-        )
+            await self.bot.send_message(
+                chat_id=int(user["TelegramID"]),
+                text=next_question["Question"]
+            )
 
         return
 
