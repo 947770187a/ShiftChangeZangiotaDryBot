@@ -108,11 +108,11 @@ class StateManager:
             ]
         )
 
-await self.bot.send_message(
-    chat_id=int(receiver["TelegramID"]),
-    text=template,
-    reply_markup=keyboard
-)
+    await self.bot.send_message(
+        chat_id=int(receiver["TelegramID"]),
+        text=template,
+        reply_markup=keyboard
+    )
 
     async def process_sender_answer(
         self,
