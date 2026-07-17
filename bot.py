@@ -29,6 +29,13 @@ async def start(message: Message):
         "Добро пожаловать!"
     )
 
+@dp.message(F.text == "/groupid")
+async def group_id(message: Message):
+
+    await message.answer(
+        f"ID этой группы:\n\n{message.chat.id}"
+    )
+
 
 @dp.message(F.text)
 async def any_message(message: Message):
