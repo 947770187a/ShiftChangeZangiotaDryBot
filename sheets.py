@@ -53,10 +53,10 @@ class GoogleSheets:
         self.settings = self.book.worksheet(SHEET_SETTINGS)
         self.templates = self.book.worksheet(SHEET_TEMPLATES)
         self.log = self.book.worksheet(SHEET_LOG)
-            self.users_cache = self.users.get_all_records()
-            self.questions_cache = self.questions.get_all_records()
-            self.settings_cache = self.settings.get_all_records()
-            self.templates_cache = self.templates.get_all_records()
+        self.users_cache = self.users.get_all_records()
+        self.questions_cache = self.questions.get_all_records()
+        self.settings_cache = self.settings.get_all_records()
+        self.templates_cache = self.templates.get_all_records()
 
     # ==========================================================
     # SERVICE
