@@ -106,7 +106,7 @@ class GoogleSheets:
     # ==========================================================
 
     def get_questions(self):
-        return self.questions.get_all_records()
+        return self.questions_cache
 
     def get_sender_questions(self):
 
