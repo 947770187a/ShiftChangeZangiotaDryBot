@@ -90,7 +90,7 @@ class GoogleSheets:
     # ==========================================================
 
     def get_users(self):
-        return self.users.get_all_records()
+        return self.users_cach
 
     def get_user_by_id(self, user_id):
 
