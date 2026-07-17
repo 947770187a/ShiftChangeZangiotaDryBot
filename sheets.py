@@ -45,7 +45,6 @@ class GoogleSheets:
 
         self.client = gspread.authorize(creds)
         self.book = self.client.open(GOOGLE_SHEET_NAME)
-
         self.users = self.book.worksheet(SHEET_USERS)
         self.questions = self.book.worksheet(SHEET_QUESTIONS)
         self.schedule = self.book.worksheet(SHEET_SCHEDULE)
@@ -54,6 +53,10 @@ class GoogleSheets:
         self.settings = self.book.worksheet(SHEET_SETTINGS)
         self.templates = self.book.worksheet(SHEET_TEMPLATES)
         self.log = self.book.worksheet(SHEET_LOG)
+            self.users_cache = self.users.get_all_records()
+            self.questions_cache = self.questions.get_all_records()
+            self.settings_cache = self.settings.get_all_records()
+            self.templates_cache = self.templates.get_all_records()
 
     # ==========================================================
     # SERVICE
