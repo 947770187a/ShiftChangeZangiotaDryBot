@@ -451,14 +451,26 @@ class StateManager:
                 )
 
             group_message = (
-                "📋 Передача смены завершена\n\n"
-                f"Сдающий:\n"
-                f"{sender['FullName']}\n\n"
-                f"Принимающий:\n"
-                f"{receiver['FullName']}\n\n"
-                "────────────────────\n\n"
-                f"{summary}"
-            )
+                    "📋 Передача смены завершена\n\n"
+
+                    f"Сдающий:\n"
+                    f"{sender['FullName']}\n\n"
+
+                    f"Принимающий:\n"
+                    f"{receiver['FullName']}\n\n"
+
+                    "────────────────────\n\n"
+
+                    "📤 Информация от сдающего\n\n"
+
+                    f"{sender_summary}"
+
+                    "────────────────────\n\n"
+
+                    "📥 Ответы принимающего\n\n"
+
+                    f"{receiver_summary}"
+         )
 
             await self.bot.send_message(
                 chat_id=int(group_id),
