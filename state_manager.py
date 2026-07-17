@@ -163,15 +163,21 @@ class StateManager:
 
         print("Template:", template)
 
-        answers = self.sheets.get_answers_by_session(
-            session["SessionID"]
+        sender_answers = self.sheets.get_answers_by_session(
+            session["SessionID"],
+            "Sender"
+        )
+        receiver_answers = self.sheets.get_answers_by_session(
+            session["SessionID],
+            "Receiver"
         )
 
-        summary = ""
+        sender_summary = ""
+        receiver_summary = ""
 
         print("Sender answers:", answers)
         
-        for answer in answers:
+        for answer in sender_answers:
 
             print(answer)
 
@@ -182,9 +188,23 @@ class StateManager:
             if question is None:
                 continue
 
-            summary += (
+            sender_summary += (
                 f"• {question['Question']}: "
                 f"{answer['Answer']}\n"
+            )
+
+        for answer in receiver_answers:
+
+            question = self.sheets.get_question_by_id(
+                answer["QuestionID"]
+            )
+
+            if question is None:
+                continue
+
+            receiver_summary += (
+                f"• {question['Question']}\n"
+                f"{answer['Answer']}\n\n"
             )
         
         sender = self.sheets.get_user_by_id(
