@@ -94,7 +94,7 @@ class GoogleSheets:
 
     def get_user_by_id(self, user_id):
 
-        for user in self.users.get_all_records():
+        for user in self.users_cache:
 
             if user["UserID"] == user_id:
                 return user
