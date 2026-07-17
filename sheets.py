@@ -76,7 +76,7 @@ class GoogleSheets:
         
     def get_setting(self, key):
 
-        rows = self.settings.get_all_records()
+        rows = self.settings_cache
 
         for row in rows:
 
@@ -112,7 +112,7 @@ class GoogleSheets:
 
         questions = []
 
-        for question in self.questions.get_all_records():
+        for question in self.questions_cache:
 
             if (
                 question["Role"] == "Sender"
@@ -129,7 +129,7 @@ class GoogleSheets:
 
         questions = []
 
-        for question in self.questions.get_all_records():
+        for question in self.questions_cache:
 
             if (
                 question["Role"] == "Receiver"
@@ -211,7 +211,7 @@ class GoogleSheets:
         
     def get_question_by_id(self, question_id):
 
-        for question in self.questions.get_all_records():
+        for question in self.questions_cache:
 
             if question["QuestionID"] == question_id:
                 return question
@@ -223,7 +223,7 @@ class GoogleSheets:
 
     def get_template(self, template_name):
 
-        rows = self.templates.get_all_records()
+        rows = self.templates_cache
 
         if not rows:
             return ""
