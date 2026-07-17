@@ -74,16 +74,12 @@ class GoogleSheets:
 
         print("=" * 50)
         
-    def get_setting(self, key):
+    def get_setting(self, name):
 
-        rows = self.settings_cache
-
-        for row in rows:
-
-            if row["Key"] == key:
-                return row["Value"]
-
-        return ""
+        if len(self.settings_cache) == 0:
+            return ""
+      
+        return self.settings_cache[0].get(name, "")
 
     # ==========================================================
     # USERS
