@@ -191,17 +191,25 @@ class GoogleSheets:
             answer["Answer"],
             answer["AnswerDateTime"]
         ])
-    def get_answers_by_session(self, session_id):
+    def get_answers_by_session(
+        self,
+        session_id,
+        role=None
+    ):    
 
         result = []
 
         for answer in self.answers.get_all_records():
 
-            if (
-                answer["SessionID"] == session_id
-                and answer["Role"] == "Sender"
-            ):
-                result.append(answer)
+            if answer["SessionID"] != session_id:
+                continue
+
+            if role is not None:
+
+                if answer["Role"] != role:
+                    continue
+
+            result.append(answer)
 
         return result
         
