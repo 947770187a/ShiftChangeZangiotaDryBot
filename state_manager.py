@@ -168,7 +168,7 @@ class StateManager:
             "Sender"
         )
         receiver_answers = self.sheets.get_answers_by_session(
-            session["SessionID],
+            session["SessionID"],
             "Receiver"
         )
 
