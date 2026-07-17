@@ -326,6 +326,7 @@ class StateManager:
         user,
         message
     ):
+        print(">>> process_receiver_answer")
 
         questions = self.sheets.get_receiver_questions()
 
@@ -389,9 +390,6 @@ class StateManager:
             "COMPLETED"
         )
 
-        print("Sending to group...")
-        print(group_message)
-        
         await self.bot.send_message(
             chat_id=int(user["TelegramID"]),
             text="✅ Передача смены завершена."
@@ -399,7 +397,7 @@ class StateManager:
         group_id = self.sheets.get_setting(
             "TelegramGroupID"
         )
-        print("Group message sent")
+
         print("GROUP ID:", group_id)
         
         if group_id != "":
@@ -446,3 +444,4 @@ class StateManager:
                 chat_id=int(group_id),
                 text=group_message
             )
+            print("Group message sent")
