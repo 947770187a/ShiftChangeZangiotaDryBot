@@ -175,7 +175,7 @@ class StateManager:
         sender_summary = ""
         receiver_summary = ""
 
-        print("Sender answers:", answers)
+        print("Sender answers:", sender_answers)
         
         for answer in sender_answers:
 
@@ -216,7 +216,7 @@ class StateManager:
             f"Сдающий:\n"
             f"{sender['FullName']}\n\n"
             f"Краткая информация:\n\n"
-            f"{summary}"
+            f"{sender_summary}"
         )
         keyboard = InlineKeyboardMarkup(
             inline_keyboard=[
@@ -430,14 +430,15 @@ class StateManager:
                 session["ReceiverUserID"]
             )
 
-            answers = self.sheets.get_answers_by_session(
-                session["SessionID"]
+            sender_answers = self.sheets.get_answers_by_session(
+                session["SessionID"],
+                "Sender"
             )
 
-            summary = ""
-
-            for answer in answers:
-
+            receiver_answers = self.sheets.get_answers_by_session(
+                session["SessionID"],
+                "Receiver"
+            )
                 question = self.sheets.get_question_by_id(
                     answer["QuestionID"]
                 )
