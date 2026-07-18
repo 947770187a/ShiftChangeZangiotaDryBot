@@ -61,6 +61,12 @@ class StateManager:
 
         print(f">>> CALLBACK: {data}")
         
+        if data in ["accept", "reject"]:
+
+            if session["Status"] != "WAITING_RECEIVER_CONFIRM":
+                print("Callback ignored")
+                return
+                
         if data == "accept":
             print(">>> ACCEPT")            
             self.sheets.update_session(
