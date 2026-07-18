@@ -60,7 +60,7 @@ class ConversationManager:
             message=text
         )
 
-     async def process_callback(
+    async def process_callback(
         self,
         telegram_id,
         data
@@ -94,6 +94,6 @@ class ConversationManager:
 
     def find_user_by_telegram(self, telegram_id):
 
-            return self.sheets.get_user_by_telegram(
-                telegram_id
-            )
+        return self.sheets.get_user_by_telegram(
+            telegram_id
+        )
