@@ -53,6 +53,7 @@ class GoogleSheets:
         self.answers = self.book.worksheet(SHEET_ANSWERS)
         self.settings = self.book.worksheet(SHEET_SETTINGS)
         self.templates = self.book.worksheet(SHEET_TEMPLATES)
+        self.answers_cache = self.answers.get_all_records()
         self.log = self.book.worksheet(SHEET_LOG)
         self.users_cache = self.users.get_all_records()
         self.questions_cache = self.questions.get_all_records()
@@ -203,6 +204,7 @@ class GoogleSheets:
             answer["Answer"],
             answer["AnswerDateTime"]
         ])
+        self.answers_cache.append(answer)
     def get_answers_by_session(
         self,
         session_id,
@@ -211,7 +213,7 @@ class GoogleSheets:
 
         result = []
 
-        for answer in self.answers.get_all_records():
+        for answer in self.answers_cache:
 
             if answer["SessionID"] != session_id:
                 continue
