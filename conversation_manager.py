@@ -1,5 +1,5 @@
 from state_manager import StateManager
-
+from registration_manager import RegistrationManager
 
 class ConversationManager:
 
@@ -8,6 +8,10 @@ class ConversationManager:
         self.sheets = sheets
         self.bot = bot
         self.state_manager = StateManager(sheets, bot)
+        self.registration_manager = RegistrationManager(
+            sheets,
+            bot
+        )
 
     async def process_telegram_message(
         
@@ -19,6 +23,11 @@ class ConversationManager:
         user = self.find_user_by_telegram(telegram_id)
 
         if user is None:
+
+            await self.registration_manager.start_registration(
+                telegram_id
+            )
+
             return
 
         session = self.sheets.get_active_session_by_sender(
