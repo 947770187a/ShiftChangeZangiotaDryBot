@@ -168,6 +168,7 @@ class StateManager:
         )
 
         print("Template:", template)
+        print("Before send receiver")
 
         sender_answers = self.sheets.get_answers_by_session(
             session["SessionID"],
