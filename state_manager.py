@@ -218,10 +218,15 @@ class StateManager:
         )
 
         template = (
-            f"{template}\n\n"
-            f"Сдающий:\n"
+            "📥 <b>Вам передают смену</b>\n\n"
+
+            f"👤 <b>Сдающий:</b>\n"
             f"{sender['FullName']}\n\n"
-            f"Краткая информация:\n\n"
+
+            "━━━━━━━━━━━━━━━━━━\n\n"
+
+            "📋 <b>Краткая информация</b>\n\n"
+
             f"{sender_summary}"
         )
         keyboard = InlineKeyboardMarkup(
@@ -244,7 +249,8 @@ class StateManager:
         await self.bot.send_message(
             chat_id=int(receiver["TelegramID"]),
             text=template,
-            reply_markup=keyboard
+            reply_markup=keyboard,
+            parce_mode="HTML"
         )
 
     async def process_sender_answer(
@@ -437,9 +443,11 @@ class StateManager:
         await self.bot.send_message(
             chat_id=int(sender["TelegramID"]),
             text=(
-                "✅ Передача смены успешно завершена.\n\n"
-                f"Принимающий:\n{receiver['FullName']}"
-            )
+                "✅ <b>Передача смены успешно завершена.</b>\n\n"
+                f"🤝 Смену принял:\n"
+                f"{receiver['FullName']}"
+            ),
+            parse_mode="HTML"
         )
         
         group_id = self.sheets.get_setting(
@@ -503,32 +511,37 @@ class StateManager:
                 )
 
             group_message = (
-                "📋 Передача смены завершена\n\n"
+                "📋 <b>Передача смены завершена</b>\n\n"
 
-                f"Сдающий:\n"
+                f"👤 <b>Сдающий</b>\n"
                 f"{sender['FullName']}\n\n"
 
-                f"Принимающий:\n"
+                f"👤 <b>Принимающий</b>\n"
                 f"{receiver['FullName']}\n\n"
 
-                "────────────────────\n\n"
+                "━━━━━━━━━━━━━━━━━━\n\n"
 
-                "📤 Информация от сдающего\n\n"
+                "📤 <b>Информация от сдающего</b>\n\n"
 
                 f"{sender_summary}"
 
-                "────────────────────\n\n"
+                "━━━━━━━━━━━━━━━━━━\n\n"
 
-                "📥 Ответы принимающего\n\n"
+                "📥 <b>Ответы принимающего</b>\n\n"
 
                 f"{receiver_summary}"
+
+                "━━━━━━━━━━━━━━━━━━\n\n"
+
+                f"🕒 {datetime.now().strftime('%d.%m.%Y %H:%M')}"
             )
             print(group_message)
             print("STEP 2")
 
             await self.bot.send_message(
                 chat_id=int(group_id),
-                text=group_message
+                text=group_message,
+                parse_mode="HTML"
             )
 
             print("Group message sent")
