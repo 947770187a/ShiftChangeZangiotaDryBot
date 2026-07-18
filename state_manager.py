@@ -414,6 +414,23 @@ class StateManager:
             chat_id=int(user["TelegramID"]),
             text="✅ Передача смены завершена."
         )
+
+        sender = self.sheets.get_user_by_id(
+            session["SenderUserID"]
+        )
+
+        receiver = self.sheets.get_user_by_id(
+            session["ReceiverUserID"]
+        )
+
+        await self.bot.send_message(
+            chat_id=int(sender["TelegramID"]),
+            text=(
+                "✅ Передача смены успешно завершена.\n\n"
+                f"Принимающий:\n{receiver['FullName']}"
+            )
+        )
+        
         group_id = self.sheets.get_setting(
             "TelegramGroupID"
         )
