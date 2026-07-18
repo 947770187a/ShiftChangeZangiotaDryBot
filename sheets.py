@@ -109,6 +109,30 @@ class GoogleSheets:
                 return user
 
         return None
+    def add_user(
+        self,
+        user_id,
+        full_name,
+        telegram_id
+    ):
+
+        row = [
+            user_id,
+            full_name,
+            str(telegram_id),
+            "FALSE",
+            "TRUE"
+        ]
+
+        self.users.append_row(row)
+
+        self.users_cache.append({
+            "UserID": user_id,
+            "FullName": full_name,
+            "TelegramID": str(telegram_id),
+            "IsAdmin": "FALSE",
+            "Active": "TRUE"
+        })
 
     # ==========================================================
     # QUESTIONS
