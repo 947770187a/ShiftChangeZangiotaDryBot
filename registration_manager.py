@@ -49,3 +49,7 @@ class RegistrationManager:
                 "Теперь вы можете пользоваться ботом."
             )
         )
+        
+    def is_pending(self, telegram_id):
+
+        return str(telegram_id) in self.pending_users
