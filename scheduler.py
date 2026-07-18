@@ -26,8 +26,6 @@ class Scheduler:
             await asyncio.sleep(5)
 
     async def check_schedule(self):
-        print("Server time:", datetime.now())
-        print("TimeZone:", self.sheets.get_setting("TimeZone"))
 
         schedules = self.sheets.get_schedule()
 

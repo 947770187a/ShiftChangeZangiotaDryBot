@@ -15,7 +15,7 @@ class SessionManager:
         session = {
             "SessionID": str(uuid.uuid4()),
             "ScheduleID": schedule["ScheduleID"],
-            "StartDateTime": self.sheets.get_now().strftime("%d.%m.%Y %H:%M:%S"),
+            "StartDateTime": datetime.now().strftime("%d.%m.%Y %H:%M:%S"),
             "SenderUserID": schedule["SenderUserID"],
             "ReceiverUserID": "",
             "Status": "WAITING_SENDER_ANSWER",
