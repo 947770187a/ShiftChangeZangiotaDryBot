@@ -41,7 +41,7 @@ class ConversationManager:
 
             return
 
-        session = self.sheets.get_active_session_by_receiver(
+        session = self.sheets.get_session_by_receiver(
             user["UserID"]
         )
 
