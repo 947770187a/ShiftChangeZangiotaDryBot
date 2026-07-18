@@ -1,13 +1,4 @@
 import uuid
-from aiogram.types import Message
-
-class RegistrationManager:
-
-    def __init__(self, sheets, bot):
-
-        self.sheets = sheets
-        self.bot = bot
-        import uuid
 
 
 class RegistrationManager:
@@ -24,6 +15,8 @@ class RegistrationManager:
         telegram_id
     ):
 
+        self.pending_users[str(telegram_id)] = True
+
         await self.bot.send_message(
             chat_id=telegram_id,
             text=(
@@ -33,7 +26,7 @@ class RegistrationManager:
             )
         )
 
-        async def process_registration(
+    async def process_registration(
         self,
         telegram_id,
         full_name
@@ -46,6 +39,8 @@ class RegistrationManager:
             full_name=full_name,
             telegram_id=telegram_id
         )
+
+        del self.pending_users[str(telegram_id)]
 
         await self.bot.send_message(
             chat_id=telegram_id,
