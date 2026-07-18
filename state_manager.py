@@ -495,5 +495,3 @@ class StateManager:
 
                 f"{receiver_summary}"
             )
-        print(group_message)
-        print("STEP 2")
