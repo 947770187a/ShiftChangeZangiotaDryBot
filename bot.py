@@ -24,9 +24,12 @@ async def start(message: Message):
         f"CHAT ID = {message.chat.id}, TYPE = {message.chat.type}"
     )
 
-    await message.answer(
-        "✅ Shift Change Bot запущен.\n\n"
-        "Добро пожаловать!"
+    if conversation_manager is None:
+        return
+
+    await conversation_manager.process_telegram_message(
+        telegram_id=message.from_user.id,
+        text="/start"
     )
 
 @dp.message(F.text == "/groupid")
