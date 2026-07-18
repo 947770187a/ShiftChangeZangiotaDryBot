@@ -72,11 +72,6 @@ class ConversationManager:
 
     def find_user_by_telegram(self, telegram_id):
 
-        users = self.sheets.get_users()
-
-        for user in users:
-
-            if str(user["TelegramID"]) == str(telegram_id):
-                return user
-
-        return None
+            return self.sheets.get_user_by_telegram(
+                telegram_id
+            )
