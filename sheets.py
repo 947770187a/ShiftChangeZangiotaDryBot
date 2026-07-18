@@ -3,6 +3,7 @@ import json
 
 import gspread
 from google.oauth2.service_account import Credentials
+from datetime import datetime
 
 from config import (
     GOOGLE_CREDENTIALS_FILE,
@@ -221,6 +222,19 @@ class GoogleSheets:
                 return question
 
         return None
+    def write_log(
+        self,
+        session_id,
+        event,
+        user_name
+    ):
+
+        self.log.append_row([
+            datetime.now().strftime("%d.%m.%Y %H:%M:%S"),
+            session_id,
+            event,
+            user_name
+        ])
     # ==========================================================
     # MESSAGE TEMPLATES
     # ==========================================================
