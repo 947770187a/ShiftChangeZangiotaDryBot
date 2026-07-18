@@ -41,13 +41,13 @@ class ConversationManager:
 
             return
 
-        session = self.sheets.get_active_session_by_sender(
+        session = self.sheets.get_active_session_by_receiver(
             user["UserID"]
         )
 
         if session is None:
 
-            session = self.sheets.get_session_by_receiver(
+            session = self.sheets.get_active_session_by_sender(
                 user["UserID"]
             )
 
