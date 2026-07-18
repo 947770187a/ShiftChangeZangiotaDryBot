@@ -7,6 +7,17 @@ class RegistrationManager:
 
         self.sheets = sheets
         self.bot = bot
+        import uuid
+
+
+class RegistrationManager:
+
+    def __init__(self, sheets, bot):
+
+        self.sheets = sheets
+        self.bot = bot
+
+        self.pending_users = {}
 
     async def start_registration(
         self,
