@@ -4,6 +4,7 @@ import json
 import gspread
 from google.oauth2.service_account import Credentials
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from config import (
     GOOGLE_CREDENTIALS_FILE,
@@ -81,6 +82,12 @@ class GoogleSheets:
             return ""
       
         return self.settings_cache[0].get(name, "")
+
+    def get_now(self):
+        timezone = ZoneInfo(
+            self.get_settings("TimeZone")
+        )
+        return datetime.now(timezone)
 
     # ==========================================================
     # USERS
