@@ -24,9 +24,20 @@ class ConversationManager:
 
         if user is None:
 
-            await self.registration_manager.start_registration(
+            if self.registration_manager.is_pending(
                 telegram_id
-            )
+            ):
+
+                await self.registration_manager.process_registration(
+                    telegram_id,
+                    text
+                )
+
+            else:
+
+                await self.registration_manager.start_registration(
+            telegram_id
+                )
 
             return
 
