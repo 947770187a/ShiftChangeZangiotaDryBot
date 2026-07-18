@@ -439,6 +439,11 @@ class StateManager:
                 session["SessionID"],
                 "Receiver"
             )
+
+            sender_summary = ""
+
+            for answer in sender_answers:
+
                 question = self.sheets.get_question_by_id(
                     answer["QuestionID"]
                 )
@@ -446,35 +451,45 @@ class StateManager:
                 if question is None:
                     continue
 
-                summary += (
+                sender_summary += (
+                    f"• {question['Question']}\n"
+                    f"{answer['Answer']}\n\n"
+                )
+
+            receiver_summary = ""
+
+            for answer in receiver_answers:
+
+                question = self.sheets.get_question_by_id(
+                    answer["QuestionID"]
+                )
+
+                if question is None:
+                    continue
+
+                receiver_summary += (
                     f"• {question['Question']}\n"
                     f"{answer['Answer']}\n\n"
                 )
 
             group_message = (
-                    "📋 Передача смены завершена\n\n"
+                "📋 Передача смены завершена\n\n"
 
-                    f"Сдающий:\n"
-                    f"{sender['FullName']}\n\n"
+                f"Сдающий:\n"
+                f"{sender['FullName']}\n\n"
 
-                    f"Принимающий:\n"
-                    f"{receiver['FullName']}\n\n"
+                f"Принимающий:\n"
+                f"{receiver['FullName']}\n\n"
 
-                    "────────────────────\n\n"
+                "────────────────────\n\n"
 
-                    "📤 Информация от сдающего\n\n"
+                "📤 Информация от сдающего\n\n"
 
-                    f"{sender_summary}"
+                f"{sender_summary}"
 
-                    "────────────────────\n\n"
+                "────────────────────\n\n"
 
-                    "📥 Ответы принимающего\n\n"
+                "📥 Ответы принимающего\n\n"
 
-                    f"{receiver_summary}"
-         )
-
-            await self.bot.send_message(
-                chat_id=int(group_id),
-                text=group_message
+                f"{receiver_summary}"
             )
-            print("Group message sent")
