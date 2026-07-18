@@ -317,11 +317,11 @@ class StateManager:
             session["SessionID"],
             "WAITING_RECEIVER_CONFIRM"
         )
-        self.sheets.write_log(
-            session["SessionID"],
-            "SENDER_COMPLETED",
-            user["FullName"]
-        )
+        #self.sheets.write_log(
+        #    session["SessionID"],
+        #    "SENDER_COMPLETED",
+        #    user["FullName"]
+        #)
         
         receivers = self.sheets.get_available_receivers(
             session["SenderUserID"]
