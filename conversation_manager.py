@@ -41,13 +41,13 @@ class ConversationManager:
 
             return
 
-        session = self.sheets.get_session_by_receiver(
+        session = self.sheets.get_active_session_by_sender(
             user["UserID"]
         )
 
         if session is None:
 
-            session = self.sheets.get_active_session_by_sender(
+            session = self.sheets.get_session_by_receiver(
                 user["UserID"]
             )
 
@@ -60,7 +60,7 @@ class ConversationManager:
             message=text
         )
 
-    async def process_callback(
+     async def process_callback(
         self,
         telegram_id,
         data
@@ -71,13 +71,15 @@ class ConversationManager:
         if user is None:
             return
 
-        session = self.sheets.get_active_session_by_sender(
-            user["UserID"]
-        )
-
-        if session is None:
+        if data in ["accept", "reject"]:
 
             session = self.sheets.get_session_by_receiver(
+                user["UserID"]
+            )
+
+        else:
+
+            session = self.sheets.get_active_session_by_sender(
                 user["UserID"]
             )
 
