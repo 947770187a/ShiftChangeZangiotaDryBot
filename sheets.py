@@ -1,5 +1,5 @@
 import os
-#import json
+import json
 
 import gspread
 from google.oauth2.service_account import Credentials
@@ -215,6 +215,7 @@ class GoogleSheets:
             session["FinishDateTime"],
             session["CurrentQuestionOrder"]
         ])
+        self.sessions_cache.append(sessoin)
 
     # ==========================================================
     # ANSWERS
@@ -339,6 +340,7 @@ class GoogleSheets:
                     column_index,
                     value
                 )
+                self.sessions_cache[row_index - 2][column] = value
 
                 return
 
