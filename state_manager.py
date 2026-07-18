@@ -419,6 +419,8 @@ class StateManager:
         )
 
         print("GROUP ID:", group_id)
+
+        print("STEP 1")
         
         if group_id != "":
 
@@ -493,3 +495,5 @@ class StateManager:
 
                 f"{receiver_summary}"
             )
+        print(group_message)
+        print("STEP 2")
