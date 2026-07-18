@@ -250,7 +250,7 @@ class StateManager:
             chat_id=int(receiver["TelegramID"]),
             text=template,
             reply_markup=keyboard,
-            parce_mode="HTML"
+            parse_mode="HTML"
         )
 
     async def process_sender_answer(
