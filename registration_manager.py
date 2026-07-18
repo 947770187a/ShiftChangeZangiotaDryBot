@@ -27,22 +27,24 @@ class RegistrationManager:
         )
 
     async def process_registration(
-        print(">>> process_registration")
-        print(telegram_id)
-        print(full_name)
         self,
         telegram_id,
         full_name
     ):
 
+        print(">>> process_registration")
+        print(telegram_id)
+        print(full_name)
+
         user_id = str(uuid.uuid4())
 
         self.sheets.add_user(
-            print(">>> add_user finished")
             user_id=user_id,
             full_name=full_name,
             telegram_id=telegram_id
         )
+
+        print(">>> add_user finished")
 
         del self.pending_users[str(telegram_id)]
 
