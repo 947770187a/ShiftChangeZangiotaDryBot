@@ -72,7 +72,7 @@ class StateManager:
             self.sheets.update_session(
                 session["SessionID"],
                 "AcceptDateTime",
-                datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+                self.sheets.get_now().strftime("%d.%m.%Y %H:%M:%S")
             )
 
             self.sheets.update_session(
@@ -108,7 +108,7 @@ class StateManager:
             self.sheets.update_session(
                 session["SessionID"],
                 "AcceptDateTime",
-                datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+                self.sheets.get_now().strftime("%d.%m.%Y %H:%M:%S")
             )
 
             self.sheets.update_session(
