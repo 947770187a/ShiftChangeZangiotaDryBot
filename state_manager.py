@@ -495,3 +495,12 @@ class StateManager:
 
                 f"{receiver_summary}"
             )
+            print(group_message)
+            print("STEP 2")
+
+            await self.bot.send_message(
+                chat_id=int(group_id),
+                text=group_message
+            )
+
+            print("Group message sent")
