@@ -98,6 +98,17 @@ class GoogleSheets:
 
         return None
 
+    def get_user_by_telegram(self, telegram_id):
+
+        telegram_id = str(telegram_id)
+
+        for user in self.users_cache:
+
+            if str(user["TelegramID"]) == telegram_id:
+                return user
+
+        return None
+
     # ==========================================================
     # QUESTIONS
     # ==========================================================
