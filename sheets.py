@@ -54,6 +54,8 @@ class GoogleSheets:
         self.settings = self.book.worksheet(SHEET_SETTINGS)
         self.templates = self.book.worksheet(SHEET_TEMPLATES)
         self.answers_cache = self.answers.get_all_records()
+        self.sessions_cache = self.sessions.get_all_records()
+        self.schedule_cache = self.schedule.get_all_records()
         self.log = self.book.worksheet(SHEET_LOG)
         self.users_cache = self.users.get_all_records()
         self.questions_cache = self.questions.get_all_records()
@@ -157,7 +159,7 @@ class GoogleSheets:
     # ==========================================================
 
     def get_schedule(self):
-        return self.schedule.get_all_records()
+        return self.schedule_cache
 
     def update_schedule_executed(self, schedule_id):
 
