@@ -134,6 +134,11 @@ class StateManager:
                     text=questions[0]["Question"]
                 )
 
+                await self.bot.send_message(
+                    chat_id=int(sender["TelegramID"]),
+                    text="✅ Запрос на передачу смены отправлен принимающему."
+                )
+
             return
         if not data.startswith("receiver:"):
             return
