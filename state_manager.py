@@ -134,11 +134,6 @@ class StateManager:
                     text=questions[0]["Question"]
                 )
 
-                await self.bot.send_message(
-                    chat_id=int(sender["TelegramID"]),
-                    text="✅ Запрос на передачу смены отправлен принимающему."
-                )
-
             return
         if not data.startswith("receiver:"):
             return
@@ -259,6 +254,10 @@ class StateManager:
             parse_mode="HTML"
         )
 
+        await self.bot.send_message(
+            chat_id=int(sender["TelegramID"]),
+            text="✅ Запрос на передачу смены отправлен принимающему."
+        )
     async def process_sender_answer(
         self,
         session,
