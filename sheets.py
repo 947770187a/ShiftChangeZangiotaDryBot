@@ -59,6 +59,7 @@ class GoogleSheets:
         self.questions_cache = self.questions.get_all_records()
         self.settings_cache = self.settings.get_all_records()
         self.templates_cache = self.templates.get_all_records()
+        self.sessions_cache = self.sessions.get_all_records()
 
     # ==========================================================
     # SERVICE
@@ -212,7 +213,7 @@ class GoogleSheets:
             session["FinishDateTime"],
             session["CurrentQuestionOrder"]
         ])
-
+        self.sessions_cache.append(session.copy())
     # ==========================================================
     # ANSWERS
     # ==========================================================
@@ -290,11 +291,11 @@ class GoogleSheets:
     # ==========================================================
 
     def get_sessions(self):
-        return self.sessions.get_all_records()
+        return self.sessions_cache
 
     def get_session_by_sender(self, user_id):
 
-        for session in self.sessions.get_all_records():
+        for session in self.sessions_cache:
 
             if (
                 session["SenderUserID"] == user_id
@@ -306,7 +307,7 @@ class GoogleSheets:
 
     def get_session_by_receiver(self, user_id):
 
-        for session in reversed(self.sessions.get_all_records()):
+        for session in reversed(self.sessions_cache):
 
             if (
                 session["ReceiverUserID"] == user_id
@@ -337,11 +338,17 @@ class GoogleSheets:
                     value
                 )
 
+                for cached in self.sessions_cache:
+
+                    if cached["SessionID"] == session_id:
+                        cached[column] = value
+                        break
+
                 return
 
     def get_active_session_by_sender(self, user_id):
 
-        for session in reversed(self.sessions.get_all_records()):
+        for session in reversed(self.sessions_cache):
 
             if (
                 session["SenderUserID"] == user_id
