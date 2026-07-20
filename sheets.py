@@ -60,6 +60,7 @@ class GoogleSheets:
         self.settings_cache = self.settings.get_all_records()
         self.templates_cache = self.templates.get_all_records()
         self.sessions_cache = self.sessions.get_all_records()
+        self.session_headers = self.sessions.row_values(1)
 
     # ==========================================================
     # SERVICE
@@ -319,18 +320,14 @@ class GoogleSheets:
 
     def update_session(self, session_id, column, value):
 
-        records = self.sessions.get_all_records()
-
-        headers = self.sessions.row_values(1)
-
-        if column not in headers:
+        if column not in self.session_headers:
             return
 
-        column_index = headers.index(column) + 1
+        column_index = self.session_headers.index(column) + 1
 
-        for row_index, row in enumerate(records, start=2):
+        for row_index, cached in enumerate(self.sessions_cache, start=2):
 
-            if row["SessionID"] == session_id:
+            if cached["SessionID"] == session_id:
 
                 self.sessions.update_cell(
                     row_index,
@@ -338,11 +335,7 @@ class GoogleSheets:
                     value
                 )
 
-                for cached in self.sessions_cache:
-
-                    if cached["SessionID"] == session_id:
-                        cached[column] = value
-                        break
+                cached[column] = value
 
                 return
 
