@@ -3,7 +3,7 @@ import json
 import uuid
 import gspread
 from google.oauth2.service_account import Credentials
-from datetime import datetimeб timedelta
+from datetime import datetime, timedelta
 
 from config import (
     GOOGLE_CREDENTIALS_FILE,
