@@ -200,14 +200,14 @@ class GoogleSheets:
 
         schedule = None
 
-    for row in self.get_schedule():
+        for row in self.get_schedule():
 
-        if row["ScheduleID"] == session["ScheduleID"]:
+            if row["ScheduleID"] == session["ScheduleID"]:
             schedule = row
-            break
+                break
 
-    if schedule is None:
-        return
+        if schedule is None:
+            return
 
     start = datetime.strptime(
         schedule["StartDateTime"],
