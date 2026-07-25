@@ -550,3 +550,5 @@ class StateManager:
             )
 
             print("Group message sent")
+
+            self.sheets.create_next_schedule(session)
