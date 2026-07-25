@@ -237,6 +237,7 @@ class GoogleSheets:
             if (
                 row["SenderUserID"] == session["ReceiverUserID"]
                 and row["StartDateTime"] == next_start_str
+                and str(row["Active"]).upper() == "TRUE"
                 and str(row["Executed"]).upper() == "FALSE"
             ):
                 print("Next schedule already exists")
