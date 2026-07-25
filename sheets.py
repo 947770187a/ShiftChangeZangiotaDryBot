@@ -195,6 +195,50 @@ class GoogleSheets:
 
                 self.schedule.update_cell(i, 5, "TRUE")
                 return
+import uuid
+from datetime import datetime, timedelta
+    def create_next_schedule(self, session):
+
+    schedule = None
+
+    for row in self.get_schedule():
+
+        if row["ScheduleID"] == session["ScheduleID"]:
+            schedule = row
+            break
+
+    if schedule is None:
+        return
+
+    start = datetime.strptime(
+        schedule["StartDateTime"],
+        "%d.%m.%Y %H:%M"
+    )
+
+    if start.hour == 2:
+
+        next_start = start.replace(
+            hour=14,
+            minute=30
+        )
+
+    else:
+
+        next_start = (
+            start + timedelta(days=1)
+        ).replace(
+            hour=2,
+            minute=30
+        )
+
+    self.schedule.append_row([
+        str(uuid.uuid4()),
+        next_start.strftime("%d.%m.%Y %H:%M"),
+        session["ReceiverUserID"],
+        "TRUE",
+        "FALSE"
+    ])
+    
 
     # ==========================================================
     # SESSIONS
