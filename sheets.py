@@ -1,9 +1,9 @@
 import os
 import json
-
+import uuid
 import gspread
 from google.oauth2.service_account import Credentials
-from datetime import datetime
+from datetime import datetimeб timedelta
 
 from config import (
     GOOGLE_CREDENTIALS_FILE,
@@ -195,8 +195,7 @@ class GoogleSheets:
 
                 self.schedule.update_cell(i, 5, "TRUE")
                 return
-import uuid
-from datetime import datetime, timedelta
+
     def create_next_schedule(self, session):
 
     schedule = None
