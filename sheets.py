@@ -229,10 +229,22 @@ class GoogleSheets:
                 hour=2,
                 minute=30
             )
+        
+        next_start_str = next_start.strftime("%d.%m.%Y %H:%M")
 
+        for row in self.get_schedule():
+
+            if (
+                row["SenderUserID"] == session["ReceiverUserID"]
+                and row["StartDateTime"] == next_start_str
+                and str(row["Executed"]).upper() == "FALSE"
+            ):
+                print("Next schedule already exists")
+                return
+                
         self.schedule.append_row([
             str(uuid.uuid4()),
-            next_start.strftime("%d.%m.%Y %H:%M"),
+            next_start_str,
             session["ReceiverUserID"],
             "TRUE",
             "FALSE"
