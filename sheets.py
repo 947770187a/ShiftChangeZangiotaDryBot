@@ -203,7 +203,7 @@ class GoogleSheets:
         for row in self.get_schedule():
 
             if row["ScheduleID"] == session["ScheduleID"]:
-            schedule = row
+                schedule = row
                 break
 
         if schedule is None:
