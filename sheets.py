@@ -209,34 +209,34 @@ class GoogleSheets:
         if schedule is None:
             return
 
-    start = datetime.strptime(
-        schedule["StartDateTime"],
-        "%d.%m.%Y %H:%M"
-    )
-
-    if start.hour == 2:
-
-        next_start = start.replace(
-            hour=14,
-            minute=30
+        start = datetime.strptime(
+            schedule["StartDateTime"],
+            "%d.%m.%Y %H:%M"
         )
 
-    else:
+        if start.hour == 2:
 
-        next_start = (
-            start + timedelta(days=1)
-        ).replace(
-            hour=2,
-            minute=30
-        )
+            next_start = start.replace(
+                hour=14,
+                minute=30
+            )
 
-    self.schedule.append_row([
-        str(uuid.uuid4()),
-        next_start.strftime("%d.%m.%Y %H:%M"),
-        session["ReceiverUserID"],
-        "TRUE",
-        "FALSE"
-    ])
+        else:
+
+            next_start = (
+                start + timedelta(days=1)
+            ).replace(
+                hour=2,
+                minute=30
+            )
+
+        self.schedule.append_row([
+            str(uuid.uuid4()),
+            next_start.strftime("%d.%m.%Y %H:%M"),
+            session["ReceiverUserID"],
+            "TRUE",
+            "FALSE"
+        ])
     
 
     # ==========================================================
