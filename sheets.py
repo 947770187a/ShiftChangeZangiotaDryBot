@@ -198,7 +198,7 @@ class GoogleSheets:
 
     def create_next_schedule(self, session):
 
-    schedule = None
+        schedule = None
 
     for row in self.get_schedule():
 
